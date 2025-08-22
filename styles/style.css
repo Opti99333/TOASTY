@@ -1,0 +1,1659 @@
+button{
+    cursor: pointer;
+}
+
+body{
+    background-color: #FFF6E5;
+    
+}
+
+*,*::before,*::after{ box-sizing: border-box; }
+
+html, body{
+  max-width: 100%;
+  overflow-x: clip;   /* лучше, чем hidden — не создаёт композитный слой */
+}
+
+.header {
+  --menu-h: 80px;                           /* высота .header__menu */
+  position: relative;
+  min-height: calc(100vh - var(--menu-h));  /* доступная высота под контент */
+  padding-top: var(--menu-h);               /* чтобы контент не прятался под меню */
+  overflow: hidden;  
+  padding-top: 80px;
+  min-height: 100vh;
+  cursor: url('../images/cursor32.png') 30 30, auto; 
+}
+.container{
+    padding:  40px 40px;
+    
+}
+.header__menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;              /* ← важно */
+  height: 80px;
+  padding: 0 20px;       /* можно меньше на мобилках */
+  background-color: #F5E1C6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-sizing: border-box;/* ← ключ, чтобы padding не вылезал за вьюпорт */
+  overflow-x: clip;      /* страховка */
+
+}
+
+.header__content{
+   text-align: center;
+    
+}
+
+.header__title{
+    font-family: var(--brand-serif);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+  position: absolute;
+  z-index: 999;
+    font-size: 20px;
+  left: 27%;
+  width:690px;
+    height:700px;
+    letter-spacing: 5px;
+}
+#orbitSvg{
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+@keyframes bounceIn {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.05); opacity: 1; }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+
+.header__menu--box{
+    display:flex;
+    width: 15%;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.header__menu-btn{
+    font-family: 'Luckiest Guy', cursive;
+  font-size: 22px;
+  color: #3b240c;
+  background: #ffda9b;
+  border: 4px solid #3b240c;
+  border-radius: 30px;
+  padding: 5px 30px;
+  box-shadow: 6px 6px 0 #3b240c;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+}
+
+.header__menu-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+  box-shadow: 8px 8px 0 #3b240c;
+  background: #ffd46b;
+
+}
+
+
+
+@keyframes pulseBtn {
+  0% { transform: scale(1); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+
+
+.header__menu--item {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s ease; 
+}
+
+.header__menu--item:hover {
+    transform: scale(1.3); 
+}
+
+.header__image{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 400px;
+  height: auto;
+
+
+}
+
+
+.funny {
+    padding: 50px 0;
+        background-image: url('../images/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.funny__title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.funny__list {
+    overflow: visible;
+    width: 100%;
+}
+
+.funny__track {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* по умолчанию 1 мем */
+  gap: 20px;
+  justify-items: center;
+}
+
+.funny__image {
+  width: 100%;
+  height: auto;
+  max-width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.funny__image:hover {
+  transform: translateY(-10px) rotate(-2deg) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  animation: bounceTilt 0.6s ease;
+}
+
+
+
+
+@media (min-width: 600px) {
+  .funny__track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .funny__track {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+
+
+
+.dog {
+  position: absolute;
+  left: 50%;
+  bottom: max(env(safe-area-inset-bottom), 0px); /* запас под вырез iPhone */
+  transform: translateX(-50%);
+  z-index: 5;
+  pointer-events: none; 
+}
+
+/* Контейнер с фиксированным соотношением сторон: ничего «не уплывает» */
+.dog-wrap{
+  position: relative;
+  /* считаем максимально допустимый размер:
+     - 60vw по ширине
+     - и по высоте: всё окно минус меню и небольшой отступ снизу */
+  --by-width: 60vw;
+  --by-height: calc(100vh - var(--menu-h) - 24px);
+
+  width: clamp(240px, min(var(--by-width), var(--by-height)), 820px);
+  aspect-ratio: 1 / 1;                      /* квадрат — всё внутри в процентах */
+  contain: layout paint size;
+    /* Левый глаз */
+  --eye-l-x: 39.7%;
+  --eye-l-y: 28.5%;
+  /* Правый глаз */
+  --eye-r-x: 60%;
+  --eye-r-y: 27%;
+  
+}
+.eye--left  { --x: var(--eye-l-x); --y: var(--eye-l-y); }
+.eye--right { --x: var(--eye-r-x); --y: var(--eye-r-y); }
+
+.dog-img{ width:100%; height:100%; object-fit: contain; display:block; }
+
+/* Орбита — центр и адекватный масштаб от контейнера */
+.orbit{
+overflow: visible;            /* <— важно */
+  position:absolute;
+  left:50%; top:40%;
+  width:100%;
+  transform:translate(-50%,-50%);
+  transform-origin:50% 50%;
+  animation: orbit-spin 12s linear infinite;
+  pointer-events: none;
+
+}
+@keyframes orbit-spin{
+  from{ transform: translate(-50%,-50%) rotate(0deg); }
+  to  { transform: translate(-50%,-50%) rotate(360deg); }
+}
+
+.eye{
+  position:absolute;
+  left:var(--x); top:var(--y);
+  transform: translate(-50%,-50%);
+  width:10%; aspect-ratio:1/1;
+  background:#fff; border-radius:50%;
+  border:3px solid #2a1f16; box-shadow: inset 0 0 0 2px #fff;
+  display:flex; align-items:center; justify-content:center; z-index:2;
+}
+.pupil{ width:45%; aspect-ratio:1/1; background:#000; border-radius:50%; }
+
+/* На экстремально узких/широких экранах — скрываем глаза/орбиту */
+
+
+/* Если контейнер совсем мал/неадекватная геометрия — отключаем глаза/орбиту */
+
+
+@keyframes spin { from{transform:translate(-50%,-50%) rotate(0)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+
+
+.about{
+ position: relative;
+    height: 100vh;
+     background-color: #FFF6E5;
+    overflow: hidden;
+
+}
+
+
+.about__info-video{
+    width: 330px;
+    height: 500px;
+    background: #ffda9b;
+    border: 5px solid transparent;
+    border-radius: 15px;
+    padding: 10px 5px;
+  margin-left: 300px;
+  
+    box-shadow: 8px 8px #3b240c;
+}
+
+.about__title{
+    font-family: 'Fredoka One', cursive;
+    color: #5C3B1E; font-size: 90px;
+    z-index: 999; animation: bounceIn 0.9s ease-out both, pulse 1.5s ease-in-out 0.9s infinite;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.about__text{
+    width: 600px;
+    max-height: 400px;
+    font-family: 'Luckiest Guy', cursive;
+  font-size: 28px;
+  background: linear-gradient(90deg, gold, orange);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 20px;
+  border: 4px solid gold;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px rgba(255, 165, 0, 0.8);
+  text-align: center;
+  animation: pulse 1.5s infinite;
+    display: flex;
+    
+}
+
+
+.about__info{
+    display: flex;
+    
+}
+
+.contr{
+    display: flex;
+  justify-content: center; /* по горизонтали */
+  align-items: center;     
+  margin-top: 40px;
+}
+.contr__link{
+    font-family: 'Luckiest Guy', cursive;
+    display: inline-block;   /* рамка подстраивается под содержимое */
+  border: 2px solid #000;  /* рамка */
+  padding: 4px 8px;        /* отступы вокруг текста */
+  border-radius: 6px;      /* скруглённые углы (опционально) */
+  background: #fff;        
+  text-align: center;
+  
+  padding: 25x;
+  border: 4px solid gold;
+  border-radius: 15px;
+  box-shadow: 0px 0px 5px rgba(255, 165, 0, 0.8);
+}
+
+.copy-btn {
+    font-family: 'Luckiest Guy', cursive;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background: gold;
+  color: #000;
+  font-weight: bold;
+  transition: 0.2s;
+  margin-left: 30px;
+}
+
+.copy-btn:hover {
+  background: orange;
+}
+
+
+
+.buy-info {
+    font-family: 'Luckiest Guy', cursive;
+    background: #fff1d6;
+    padding: 20px 20px;
+    border: 6px solid #3b240c;
+    border-radius: 20px;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 8px 8px 0 #3b240c;
+}
+
+.buy-info__title {
+    text-align: center;
+    font-size: 2.4rem;
+    margin-bottom: 40px;
+    font-weight: 700;
+    color: #3b240c;
+    text-transform: uppercase;
+}
+
+.buy-info__steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px 40px;
+    justify-items: center; 
+    align-items: center;
+}
+
+
+
+.buy-info__step:hover .buy-info__step-title {
+    animation: wiggle 0.4s ease-in-out;
+}
+
+/* Анимация "покачивания" */
+@keyframes wiggle {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-3px); }
+    50%  { transform: translateX(3px); }
+    75%  { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+.buy-info__step {
+    background: #ffda9b;
+    border: 5px solid transparent;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    max-width: 280px;
+    text-align: center;
+    position: relative;
+    animation: glowBorder 3s ease-in-out infinite;
+}
+
+.buy-info__step::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    padding: 4px;
+    background: linear-gradient(90deg, #ffcc00, #ff6600, #ffcc00);
+    background-size: 300% 300%;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: moveGradient 6s linear infinite;
+}
+
+@keyframes glowBorder {
+    0%, 100% {
+        box-shadow:
+            0 0 15px rgba(255, 204, 0, 0.6),
+            0 0 30px rgba(255, 153, 0, 0.5),
+            0 0 45px rgba(255, 102, 0, 0.4);
+    }
+    50% {
+        box-shadow:
+            0 0 25px rgba(255, 204, 0, 0.9),
+            0 0 50px rgba(255, 153, 0, 0.8),
+            0 0 70px rgba(255, 102, 0, 0.6);
+    }
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.buy-info__step-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #3b240c;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.3s ease;
+}
+
+.buy-info__step img {
+    transition: transform 0.3s ease;
+}
+
+.buy-info__step {
+    transition: transform 0.3s ease;
+}
+
+.buy-info__step:hover {
+    animation: wiggle 0.4s ease-in-out;
+}
+
+@keyframes wiggle {
+    0%   { transform: translateX(0); }
+    25%  { transform: translateX(-4px); }
+    50%  { transform: translateX(4px); }
+    75%  { transform: translateX(-2px); }
+    100% { transform: translateX(0); }
+}
+
+
+.buy-info__step-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #3b240c;
+}
+
+
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+
+
+
+.footer {
+      background-image: url('../images/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-dog img {
+  max-width: 400px;
+  margin-right: 20px;
+}
+
+.footer-content {
+  max-width: 400px;
+}
+
+.footer-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #5C3B1E;
+}
+
+.footer-text {
+  font-size: 20px;
+  margin: 10px 0 20px;
+  color: #444;
+}
+
+.buy-btn {
+  background-color: #FFB347;
+  color: #fff;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.buy-btn:hover {
+  transform: scale(1.05);
+  background-color: #ff9800;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (width: 7680px){
+  .header__menu{
+    height: 400px;
+    padding: 80px 200px;
+  }
+  .header__menu-btn{
+    font-size: 10rem;
+    width: 400px;
+  }
+  .header__menu--item{
+    width: 200px;
+    height: 200px;
+  }
+  .header__image{
+    min-width: 2500px;
+  }
+  .header__title{
+    width: 4500px;
+    height: 4500px;
+    left: 20%;
+    top: 0%;
+  }
+    .left-eye {
+  top: 38%;
+  left: 46%;
+}
+
+.right-eye {
+  top: 37%;
+  left: 55%;
+}
+
+.pupil{
+  width: 80px;
+  height: 80px;
+}
+.contr{
+  min-width: 2000px;
+  font-size: 10rem;
+}
+.copy-btn{
+  margin-left: 50px;
+}
+.about {
+    height: auto;
+    padding: clamp(200px, 10vw, 400px) 0; /* сверху и снизу больше воздуха */
+  }
+
+  .about .container {
+    max-width: 5000px;       /* центрируем, не растягиваем на весь экран */
+    margin-inline: auto;
+    padding-inline: clamp(80px, 5vw, 200px);
+  }
+
+  .about__title {
+    font-size: clamp(150px, 8vw, 280px); /* огромный заголовок */
+    margin-bottom: clamp(80px, 5vw, 160px);
+    text-align: center;
+  }
+
+  .about__info {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* текст шире, видео чуть уже */
+    gap: clamp(100px, 6vw, 200px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about__text {
+  width: 100%;
+  max-width: 1800px;  
+   min-height: 1800px;
+  font-family: 'Luckiest Guy', cursive;
+  font-size: 7rem;
+  background: linear-gradient(90deg, gold, orange);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 20px;
+  border: 4px solid gold;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px rgba(255, 165, 0, 0.8);
+  text-align: center;
+
+  line-height: 1.5;
+  word-wrap: break-word;   /* перенос длинных слов */
+  white-space: normal;     /* разрешаем перенос */
+  display: block;          /* вместо flex */
+  margin: 0 auto;          /* центрируем */
+}
+
+  .about__info-video {
+    width: clamp(1200px, 30vw, 2400px);
+    max-width: 100%;
+    height: auto;
+    max-height: 3000px;      /* чтобы не вылазило за экран */
+    object-fit: cover;
+    border-radius: 40px;
+    box-shadow: 20px 20px 0 #3b240c;
+  }
+  .funny__image{
+  max-width: 1200px;
+  gap: 60px;
+}
+.buy-info{
+  max-width: 5000px;
+}
+.buy-info__steps{
+  gap: 80px;
+  margin-bottom: 90px;
+}
+.buy-info__step{
+  min-width: 1700px;
+}
+.buy-info__title{
+  font-size: 15.5rem;
+}
+    .buy-info__step-title {
+        font-size: 8rem;
+    }
+.buy-info__step-text {
+        font-size: 7rem;
+    }
+        .buy-btn {
+        font-size: 73px;
+        padding: 16px 32px;
+    }
+ .footer {
+    padding: 120px 0;
+  }
+
+  .footer-container {
+    /* Центр + комфортная максимальная ширина, чтобы контент не «растекался» */
+    max-width: 6400px;
+    margin: 0 auto;
+    gap: 160px;               /* расстояние между картинкой и текстом */
+  }
+
+  .footer-dog img {
+    /* Большое, но управляемое изображение */
+    width: clamp(1600px, 32vw, 2600px);
+    max-width: none;          /* убираем старые ограничения */
+    height: auto;
+    image-rendering: auto;    /* чётче скейлится на 8K */
+    display: block;
+  }
+
+  .footer-content {
+    max-width: 2800px;        /* ограничиваем ширину текстового блока */
+  }
+
+  .footer-title {
+    font-size: clamp(112px, 2.4vw, 180px);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    color: #5C3B1E;
+    text-shadow: 0 2px 0 #fff6, 0 0 24px #fff4; /* лёгкий контраст на фоне */
+  }
+
+  .footer-text {
+    font-size: clamp(56px, 1.2vw, 88px);
+    line-height: 1.35;
+    margin: 10px 0 40px;
+    color: #3b2b1a;
+  }
+
+  .buy-btn {
+    font-size: clamp(64px, 1.6vw, 96px);
+    padding: 40px 80px;
+    border-radius: 36px;
+    font-weight: 700;
+    box-shadow: 12px 12px 0 #3b240c;
+    transition: transform .2s ease, background-color .3s ease, box-shadow .2s ease;
+  }
+
+  .buy-btn:hover {
+    transform: translateY(-6px) scale(1.03);
+    background-color: #ff9800;
+    box-shadow: 16px 16px 0 #3b240c;
+  }
+}
+
+@media (width: 3840px) {
+  .header__image{
+    min-width: 1200px;
+  }
+
+.header__title{
+  width: 2000px;
+  height: 2000px;
+  left: 25%;
+  top: 5%;
+}
+  .left-eye {
+  top: 40%;
+  left: 46%;
+}
+
+.right-eye {
+  top: 39%;
+  left: 55%;
+}
+
+.pupil{
+  width: 40px;
+  height: 40px;
+}
+.about__content{
+  width: 1800px;
+}
+.about__text{
+  font-size: 41px;
+  width: 1200px;
+  height: 600px;
+}
+.funny__image{
+  max-width: 700px;
+}
+.buy-info {
+        max-width: 2000px;
+        
+        padding: 40px;
+}
+.buy-info__step{
+  min-width: 600px;
+}
+    .buy-info__step-title {
+        font-size: 3.5rem;
+    }
+.buy-info__step-text {
+        font-size: 2.5rem;
+    }
+        .buy-btn {
+        font-size: 73px;
+        padding: 16px 32px;
+    }
+        .footer-title {
+        font-size: 68px;
+    }
+    .footer-text {
+        font-size: 38px;
+    }
+    .footer-content {
+    max-width: 570px;
+}
+.footer-container{
+  width: 2000px;
+}
+}
+
+@media screen and (min-width: 2560px){
+  .header__image{
+    max-width: 800px;
+  }
+  .dog-wrap {
+    --by-width: 70vw; /* займёт больше ширины */
+    --by-height: calc(100vh - var(--menu-h) - 60px);
+    width: clamp(500px, min(var(--by-width), var(--by-height)), 2500px);
+  }
+
+  .eye {
+    border-width: 5px;                     /* глазки толще */
+  }
+  .pupil {
+    width: 55%;                             /* зрачки чуть крупнее */
+    
+}
+.left-eye {
+  top: 40%;
+  left: 46%;
+}
+.right-eye {
+  top: 39%;
+  left: 55%;
+}
+.header__title{
+  width: 1500px;
+  height: 1500px;
+  left: 20%;
+  top: 0%;
+}
+.pupil{
+  width: 40px;
+  height: 40px;
+}
+  
+}
+
+@media (max-width: 1366px) {
+  .left-eye {
+  top: 44%;
+  left: 46%;
+}
+
+.right-eye {
+  top: 43%;
+  left: 54%;
+}
+
+.header__title{
+  left: 25%;
+    top: 7%;
+}
+}
+
+@media (min-width: 1920px) {
+  .header__title {
+    font-size: 48px;
+    width: 1000px;
+    height: 1000px;
+    left: 50%;
+    transform: translateX(-50%);
+    letter-spacing: 8px;
+  }
+
+
+
+  .header__image {
+    max-width: 600px;
+  }
+  .header__title{
+    left: 30%;
+    top: 20%;
+    width: 1000px;
+    height: 1000px;
+    font-size: 25px;
+    letter-spacing: 2px;
+  }
+
+  .contr{
+    min-width: 600px;
+    font-size: 40px;
+  }
+
+  .eye {
+    border: 4px solid #2a1f16;
+  }
+
+  .pupil {
+    width: 20px;
+    height: 20px;
+  }
+
+   .about {
+    height: auto;
+    padding: clamp(60px, 6vw, 120px) 0;
+  }
+
+  /* центр и предельная ширина, чтобы не липло к краям */
+  .about .container {
+    max-width: 1400px;                 /* фиксируем комфортную ширину на 2K/4K */
+    margin-inline: auto;
+    padding-inline: clamp(32px, 3vw, 80px);
+  }
+
+  .about__title {
+    font-size: clamp(48px, 5vw, 110px);
+    margin-bottom: clamp(24px, 3vw, 56px);
+    text-align: center;
+  }
+
+  /* строгая двухколоночная сетка */
+  .about__info{
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;   /* текст шире, видео уже */
+    gap: clamp(32px, 4vw, 96px);
+    align-items: center;
+  }
+  .about__text{
+    width: clamp(560px, 44vw, 880px);
+    font-size: clamp(20px, 1.5vw, 34px);
+    line-height: 1.45;
+    padding: clamp(14px, 1.4vw, 28px);
+  }
+
+  /* ограничиваем видео по ширине И высоте, центрируем */
+  .about__info-video {
+    display: block;
+    margin: 0;                          /* убрали все сдвиги */
+    width: clamp(520px, 38vw, 860px);  /* стала шире */
+    max-width: 100%;
+    height: auto;
+    max-height: min(74vh, 900px);       /* не выше экрана — не «выпирает» вниз */
+    object-fit: cover;
+  }
+
+  .funny__image {
+    max-width: 500px;
+  }
+
+  .buy-info {
+    max-width: 1400px;
+    padding: 40px;
+  }
+
+  .buy-info__title {
+    font-size: 3.5rem;
+  }
+
+  .buy-info__step {
+    max-width: 400px;
+    padding: 30px;
+  }
+
+  .buy-info__step-title {
+    font-size: 2rem;
+  }
+
+  .buy-info__step-text {
+    font-size: 1.3rem;
+  }
+
+  .footer-dog img {
+    max-width: 600px;
+  }
+
+  .footer-title {
+    font-size: 40px;
+  }
+
+  .footer-text {
+    font-size: 20px;
+  }
+
+  .buy-btn {
+    font-size: 24px;
+    padding: 16px 32px;
+  }
+}
+
+
+@media (max-width: 425px){
+
+  .header__title{
+    width: 320px;
+    height: 320px;
+    top: 35%;
+    left: 10%;
+    animation: none !important; /* выключаем spin */
+    transform: none;            
+  }
+  .header__image{
+    width: 250px;
+    height: 400px;
+  }
+   :root { font-size: 14px; }
+
+  .container { padding: 16px; }
+
+  /* ---- ABOUT ---- */
+  .about {
+    height: auto;
+    padding: 24px 0;
+    background-color: #FFF6E5;
+    overflow: visible;
+  }
+
+  .about__title {
+    font-size: 28px;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+
+  .about__info {
+    display: block;   /* одна колонка */
+  }
+
+  .about__text {
+    width: 100%;
+    max-height: none;
+    margin: 0 0 12px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(255,165,0,.35);
+  }
+
+  .about__info-video {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    margin: 0 auto;
+    padding: 6px 4px;
+    border-width: 3px;
+    border-radius: 12px;
+    box-shadow: 6px 6px #3b240c;
+  }
+
+  /* ---- FUNNY ---- */
+  .funny {
+    padding: 20px 0;
+    background-size: cover;
+  }
+
+  .funny__list { overflow: visible; }
+
+  .funny__track {
+    display: grid;
+    grid-template-columns: 1fr; /* всегда одна карточка в ряд */
+    gap: 12px;
+    justify-items: center;
+  }
+
+  .funny__image {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.18);
+  }
+
+  /* ---- HOW TO BUY ---- */
+  .buy-info {
+    font-family: 'Luckiest Guy', cursive;
+    max-width: 100%;
+    margin: 20px 16px;
+    padding: 16px;
+    border-width: 4px;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 #3b240c;
+  }
+
+  .buy-info__title {
+    font-size: 22px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .buy-info__steps {
+    display: grid;
+    grid-template-columns: 1fr; /* одна колонка */
+    gap: 12px;
+    justify-items: stretch;
+  }
+
+  .buy-info__step {
+    max-width: none;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .buy-info__step-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .buy-info__step-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Контракт + копирование (в обеих секциях) */
+  .contr {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .contr__link {
+    max-width: 100%;
+    font-size: 12px;
+    padding: 8px;
+    word-break: break-all; /* длинный CA красиво переносится */
+    border-width: 3px;
+  }
+  .copy-btn {
+    margin-left: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    padding: 16px;
+    text-align: center;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-dog img {
+    width: 70%;
+    max-width: 220px;
+    height: auto;
+    margin: 0 auto 8px;
+  }
+
+  .footer-content {
+    max-width: 100%;
+  }
+
+  .footer-title {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    margin: 8px 0 14px;
+  }
+
+  .buy-btn {
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    font-size: 16px;
+    padding: 10px 16px;
+    border-radius: 10px;
+  }
+  .header__menu {
+    height: 60px;
+    padding: 0 10px;
+  }
+
+  .header__menu--box {
+    width: auto;
+    gap: 6px;
+  }
+
+  .header__menu--item {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header__menu-btn {
+    font-size: 14px;
+    padding: 4px 12px;
+    border-width: 2px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0 #3b240c;
+  }
+
+  .header__menu-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 4px 4px 0 #3b240c;
+  }
+  .dog-wrap {
+    --by-width: 90vw; /* почти вся ширина экрана */
+    --by-height: calc(100vh - var(--menu-h) - 20px);
+    width: clamp(200px, min(var(--by-width), var(--by-height)), 360px);
+  }
+
+}
+
+@media (max-width: 375px){
+
+  .header__title{
+    width: 320px;
+    height: 320px;
+    top: 35%;
+    left: 6%;
+    animation: none !important; /* выключаем spin */
+    transform: none;            
+  }
+  .header__image{
+    width: 250px;
+    height: 400px;
+  }
+   :root { font-size: 14px; }
+
+  .container { padding: 16px; }
+
+  /* ---- ABOUT ---- */
+  .about {
+    height: auto;
+    padding: 24px 0;
+    background-color: #FFF6E5;
+    overflow: visible;
+  }
+
+  .about__title {
+    font-size: 28px;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+
+  .about__info {
+    display: block;   /* одна колонка */
+  }
+
+  .about__text {
+    width: 100%;
+    max-height: none;
+    margin: 0 0 12px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(255,165,0,.35);
+  }
+
+  .about__info-video {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    margin: 0 auto;
+    padding: 6px 4px;
+    border-width: 3px;
+    border-radius: 12px;
+    box-shadow: 6px 6px #3b240c;
+  }
+
+  /* ---- FUNNY ---- */
+  .funny {
+    padding: 20px 0;
+    background-size: cover;
+  }
+
+  .funny__list { overflow: visible; }
+
+  .funny__track {
+    display: grid;
+    grid-template-columns: 1fr; /* всегда одна карточка в ряд */
+    gap: 12px;
+    justify-items: center;
+  }
+
+  .funny__image {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.18);
+  }
+
+  /* ---- HOW TO BUY ---- */
+  .buy-info {
+    font-family: 'Luckiest Guy', cursive;
+    max-width: 100%;
+    margin: 20px 16px;
+    padding: 16px;
+    border-width: 4px;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 #3b240c;
+  }
+
+  .buy-info__title {
+    font-size: 22px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .buy-info__steps {
+    display: grid;
+    grid-template-columns: 1fr; /* одна колонка */
+    gap: 12px;
+    justify-items: stretch;
+  }
+
+  .buy-info__step {
+    max-width: none;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .buy-info__step-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .buy-info__step-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Контракт + копирование (в обеих секциях) */
+  .contr {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .contr__link {
+    max-width: 100%;
+    font-size: 12px;
+    padding: 8px;
+    word-break: break-all; /* длинный CA красиво переносится */
+    border-width: 3px;
+  }
+  .copy-btn {
+    margin-left: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    padding: 16px;
+    text-align: center;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-dog img {
+    width: 70%;
+    max-width: 220px;
+    height: auto;
+    margin: 0 auto 8px;
+  }
+
+  .footer-content {
+    max-width: 100%;
+  }
+
+  .footer-title {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    margin: 8px 0 14px;
+  }
+
+  .buy-btn {
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    font-size: 16px;
+    padding: 10px 16px;
+    border-radius: 10px;
+  }
+  .header__menu {
+    height: 60px;
+    padding: 0 10px;
+  }
+
+  .header__menu--box {
+    width: auto;
+    gap: 6px;
+  }
+
+  .header__menu--item {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header__menu-btn {
+    font-size: 14px;
+    padding: 4px 12px;
+    border-width: 2px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0 #3b240c;
+  }
+
+  .header__menu-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 4px 4px 0 #3b240c;
+  }
+  .dog-wrap {
+    --by-width: 95vw;
+    --by-height: calc(100vh - var(--menu-h) - 20px);
+    width: clamp(200px, min(var(--by-width), var(--by-height)), 320px);
+  }
+
+}
+
+@media (max-width: 320px){
+
+  .header__title{
+    width: 320px;
+    height: 320px;
+    top: 30%;
+    left: 0%;
+    animation: none !important; /* выключаем spin */
+    transform: none;            
+  }
+  .header__image{
+    width: 250px;
+    height: 400px;
+  }
+   :root { font-size: 14px; }
+
+  .container { padding: 16px; }
+
+  /* ---- ABOUT ---- */
+  .about {
+    height: auto;
+    padding: 24px 0;
+    background-color: #FFF6E5;
+    overflow: visible;
+  }
+
+  .about__title {
+    font-size: 28px;
+    margin: 0 0 12px;
+    text-align: center;
+  }
+
+  .about__info {
+    display: block;   /* одна колонка */
+  }
+
+  .about__text {
+    width: 100%;
+    max-height: none;
+    margin: 0 0 12px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-width: 2px;
+    box-shadow: 0 0 10px rgba(255,165,0,.35);
+  }
+
+  .about__info-video {
+    width: 100%;
+    height: auto;
+    max-height: 260px;
+    margin: 0 auto;
+    padding: 6px 4px;
+    border-width: 3px;
+    border-radius: 12px;
+    box-shadow: 6px 6px #3b240c;
+  }
+
+  /* ---- FUNNY ---- */
+  .funny {
+    padding: 20px 0;
+    background-size: cover;
+  }
+
+  .funny__list { overflow: visible; }
+
+  .funny__track {
+    display: grid;
+    grid-template-columns: 1fr; /* всегда одна карточка в ряд */
+    gap: 12px;
+    justify-items: center;
+  }
+
+  .funny__image {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.18);
+  }
+
+  /* ---- HOW TO BUY ---- */
+  .buy-info {
+    font-family: 'Luckiest Guy', cursive;
+    max-width: 100%;
+    margin: 20px 16px;
+    padding: 16px;
+    border-width: 4px;
+    border-radius: 16px;
+    box-shadow: 6px 6px 0 #3b240c;
+  }
+
+  .buy-info__title {
+    font-size: 22px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .buy-info__steps {
+    display: grid;
+    grid-template-columns: 1fr; /* одна колонка */
+    gap: 12px;
+    justify-items: stretch;
+  }
+
+  .buy-info__step {
+    max-width: none;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .buy-info__step-title {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .buy-info__step-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Контракт + копирование (в обеих секциях) */
+  .contr {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .contr__link {
+    max-width: 100%;
+    font-size: 12px;
+    padding: 8px;
+    word-break: break-all; /* длинный CA красиво переносится */
+    border-width: 3px;
+  }
+  .copy-btn {
+    margin-left: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    padding: 16px;
+    text-align: center;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-dog img {
+    width: 70%;
+    max-width: 220px;
+    height: auto;
+    margin: 0 auto 8px;
+  }
+
+  .footer-content {
+    max-width: 100%;
+  }
+
+  .footer-title {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .footer-text {
+    font-size: 14px;
+    margin: 8px 0 14px;
+  }
+
+  .buy-btn {
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    font-size: 16px;
+    padding: 10px 16px;
+    border-radius: 10px;
+  }
+  .header__menu {
+    height: 60px;
+    padding: 0 10px;
+  }
+
+  .header__menu--box {
+    width: auto;
+    gap: 6px;
+  }
+
+  .header__menu--item {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header__menu-btn {
+    font-size: 14px;
+    padding: 4px 12px;
+    border-width: 2px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0 #3b240c;
+  }
+
+  .header__menu-btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 4px 4px 0 #3b240c;
+  }
+  .contr__link{
+    font-size: 11px;
+  }
+
+}
+
+
+
+
