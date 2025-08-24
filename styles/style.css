@@ -284,9 +284,13 @@ overflow: visible;            /* <— важно */
     height: 100vh;
      background-color: #FFF6E5;
     overflow: hidden;
-
 }
 
+.about__info{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 
 .about__info-video{
     width: 330px;
@@ -295,7 +299,7 @@ overflow: visible;            /* <— важно */
     border: 5px solid transparent;
     border-radius: 15px;
     padding: 10px 5px;
-  margin-left: 300px;
+    margin-left: -15%;
   
     box-shadow: 8px 8px #3b240c;
 }
@@ -918,6 +922,9 @@ overflow: visible;            /* <— важно */
 .header__title{
   left: 25%;
     top: 7%;
+}
+.about__info-video{
+ margin-left: 0;
 }
 }
 
