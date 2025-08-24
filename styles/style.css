@@ -1059,6 +1059,9 @@ overflow: visible;            /* <— важно */
   margin-top: 0 !important;
   padding-top: 0 !important;
   }
+  .header{
+    margin-top: -85%;
+  }
 }
 
 @media (max-width: 425px){
@@ -1714,6 +1717,7 @@ overflow: visible;            /* <— важно */
 .Footer-side-subtitle{ 
   padding: 0.7%;
   font-family: 'Luckiest Guy', cursive;
+  font-weight: 400;
   color: white;
   display: flex;
   justify-content: center;
