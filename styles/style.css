@@ -310,10 +310,13 @@ overflow: visible;            /* <— важно */
 
 
 .about__text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
     width: 600px;
     max-height: 400px;
     font-family: 'Luckiest Guy', cursive;
-  font-size: 28px;
+  font-size: 32px;
   background: linear-gradient(90deg, gold, orange);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
