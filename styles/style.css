@@ -1707,6 +1707,18 @@ overflow: visible;            /* <— важно */
 
 }
 
+.Footer-side{
+  background-color: #000;
+}
+
+.Footer-side-subtitle{ 
+  padding: 0.7%;
+  font-family: 'Luckiest Guy', cursive;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 
