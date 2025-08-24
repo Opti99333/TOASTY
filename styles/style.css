@@ -305,7 +305,8 @@ overflow: visible;            /* <— важно */
 }
 
 .about__title{
-    font-family: 'Fredoka One', cursive !important;
+     font-family: 'Fredoka One', sans-serif;
+  font-style: normal; 
     color: #5C3B1E; font-size: 90px;
     z-index: 999; animation: bounceIn 0.9s ease-out both, pulse 1.5s ease-in-out 0.9s infinite;
     text-align: center;
