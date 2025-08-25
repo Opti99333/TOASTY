@@ -231,3 +231,33 @@ AOS.init({
   checkSafety();
   requestAnimationFrame(tick);
 })();
+
+async function copyToClipboard(btn) {
+  try {
+    // берём текст из ближайшего блока .contr
+    const wrap = btn.closest('.contr');
+    const textEl = wrap?.querySelector('.contr__link');
+    const text = textEl?.innerText?.trim();
+    if (!text) throw new Error('Nothing to copy');
+
+    // современный API (работает на https или localhost)
+    await navigator.clipboard.writeText(text);
+
+    const prev = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => (btn.textContent = prev), 1200);
+  } catch (err) {
+    // Фолбэк для старых браузеров
+    const ta = document.createElement('textarea');
+    ta.value = textEl?.innerText?.trim() || '';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = 'Copy'), 1200);
+    } finally {
+      document.body.removeChild(ta);
+    }
+  }
+}
